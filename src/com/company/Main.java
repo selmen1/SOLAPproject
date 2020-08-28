@@ -1,9 +1,6 @@
 package com.company;
 
-import com.company.solapgaptree.Objet;
-import com.company.solapgaptree.Point;
-import com.company.solapgaptree.Polygone;
-import com.company.solapgaptree.Zone;
+import com.company.solapgaptree.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -217,6 +214,14 @@ public class Main {
         poids[0]= 0.5;
         poids[1]= 0.5;
 
-        Z1.solapGAPtree(listObjets,poids).getRacine().print();
+        GAPtree tree = Z1.solapGAPtree(listObjets,poids);
+        tree.getRacine().print();
+
+        ArrayList<Noeud> list =new ArrayList<>();
+        ArrayList<Noeud> resultat =new ArrayList<>();
+        resultat = tree.chercher(tree.getRacine(),0.5,list);
+        for (Noeud l : resultat){
+            System.out.println(l.getElement());
+        }
     }
 }

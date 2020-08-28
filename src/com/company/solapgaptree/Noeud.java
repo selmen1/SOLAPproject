@@ -16,9 +16,8 @@ public class Noeud implements Cloneable{
         droit = null;
     }
 
-    public Noeud(Integer element, Double Importance, Noeud gauche, Noeud droit){
+    public Noeud(Integer element, Noeud gauche, Noeud droit){
         this.element=element;
-        this.importance=Importance;
         this.gauche=gauche;
         this.droit=droit;
     }
@@ -28,8 +27,8 @@ public class Noeud implements Cloneable{
         return element;
     }
 
-    public double getImportance() {
-        return importance;
+    public Double getImportance() {
+         return importance;
     }
 
     public Noeud getGauche() {
@@ -45,15 +44,15 @@ public class Noeud implements Cloneable{
     }
 
     public void setImportance(Double importance) {
-        importance = importance;
+        this.importance = importance;
     }
 
     public void setGauche(Noeud gauche) {
-        gauche = gauche;
+       this.gauche = gauche;
     }
 
-    public void setDroite(Noeud droite) {
-        droite = droite;
+    public void setDroite(Noeud droit) {
+        this.droit = droit;
     }
 
     public Object clone() throws CloneNotSupportedException{
@@ -62,7 +61,7 @@ public class Noeud implements Cloneable{
         if( gauche != null ) g = (Noeud)gauche.clone();
         Noeud d = null;
         if( droit != null ) d = (Noeud)droit.clone();
-        return new Noeud(element,importance, g, d);
+        return new Noeud(element, g, d);
     }
 
     // affichage dans un fichier
@@ -76,10 +75,10 @@ public class Noeud implements Cloneable{
         }
     }
     public void printNodeValue(OutputStreamWriter out) throws IOException {
-        if (importance == null) {
+        if (importance == 0) {
             out.write("<null>");
         } else {
-            out.write(importance.toString());
+            out.write(String.valueOf(importance));
         }
         out.write('\n');
     }
@@ -108,7 +107,7 @@ public class Noeud implements Cloneable{
 
     public void print(String prefix, Noeud n, boolean isLeft) {
         if (n != null) {
-            System.out.println (prefix + (isLeft ? "|-- " : "\\-- ") + n.element);
+            System.out.println (prefix + (isLeft ? "|-- " : "\\-- ") + n.element  + "   " + n.importance);
             print(prefix + (isLeft ? "|   " : "    "), n.gauche, true);
             print(prefix + (isLeft ? "|   " : "    "), n.droit, false);
         }

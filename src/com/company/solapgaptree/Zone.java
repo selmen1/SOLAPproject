@@ -141,6 +141,15 @@ public class Zone {
             }
             LIO.add(somme(tab)/somme(poids));
         }
+        double n=0 ;
+        for (Double x : LIO){
+            n=n+x;
+        }
+
+        for (int i =0; i< LIO.size();i++){
+            LIO.set(i, LIO.get(i)/n);
+        }
+
         // affichage
         System.out.println(LIO.size());
         System.out.println("Affichage l'importance des objets");
@@ -151,6 +160,7 @@ public class Zone {
     }
 
     public GAPtree solapGAPtree(ArrayList<Objet> listObjet, double[] poids){
+
         // Pour chaque objet de la carte un noeud vide non connécté dans GAPtree est crée
         // un noeud est caractérisé par (id, liste des fils, importance)
 
@@ -158,8 +168,10 @@ public class Zone {
         ArrayList<Double> Seuils = importance(listObjet,poids);
         System.out.println(Seuils);
         for (int i=0; i< listObjet.size();i++){
-            Noeud noeud= new Noeud(i,Seuils.get(i),null,null);
+            Noeud noeud= new Noeud(i,null,null);
+            noeud.setImportance(Seuils.get(i));
             System.out.println(noeud.getElement());
+            System.out.println(noeud.getImportance());
             LNoeud.add(noeud);
         }
         System.out.println(LNoeud);
@@ -182,6 +194,8 @@ public class Zone {
             System.out.println("IdObjetMin =  " + IdObjetMin);
             Objet a = listObjet.get(IdObjetMin-1);
             System.out.println("Id objet a   " + a.getIdObjet());
+            System.out.println("le p   " + p);
+            //double imp_a = Seuils.get(a.getIdObjet()-p-1);
             double imp_a = Seuils.get(IdObjetMin-1);
             System.out.println("imp_a:  " + imp_a);
             listObjetCopy.remove(IdObjetMin-1);
@@ -208,8 +222,8 @@ public class Zone {
                 System.out.println("Id objet max   " + IdObjetMax);
                 Objet b =  listObjet_a.get(IdObjetMax-1);
                 System.out.println("id de l'objet b:  " + b.getIdObjet());
-                double imp_b= LIO.get(IdObjetMax-1);
-
+                //double imp_b = Seuils.get(b.getIdObjet()-p);
+                double imp_b= Seuils.get(IdObjetMax-1);
                 System.out.println("imp_b   " + imp_b);
 
                 // Fusionner l'objet "a" dans "b".
@@ -236,7 +250,10 @@ public class Zone {
                 System.out.println(b.getIdObjet());
                 System.out.println(LNoeud);
                 //Noeud noeud2 = new Noeud(p,s,LNoeud.get(a.getIdObjet()-1),r);
-                Noeud noeud2 = new Noeud(p,s,LNoeud.get(a.getIdObjet()-1),LNoeud.get(b.getIdObjet()-1));
+                Noeud noeud2 = new Noeud(p,LNoeud.get(b.getIdObjet()-1),LNoeud.get(a.getIdObjet()-1));
+                noeud2.setImportance(noeud2.getDroite().getImportance() + noeud2.getGauche().getImportance());
+                System.out.println(noeud2.getImportance());
+                //noeud2.setImportance(imp_a + imp_b);
                 LNoeud.add(noeud2);
                 r = noeud2;
                 System.out.println("racine  " + r.getElement());

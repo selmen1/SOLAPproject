@@ -96,17 +96,16 @@ public class GAPtree {
 
     // Sélectionner tous les nœuds ayant leurs seuil >= s
 
-    ArrayList<Noeud> chercher(Noeud r, Double s){
-        ArrayList<Noeud> list = new ArrayList<Noeud>();
-        if (r == null) return null;
-        else if (r.getImportance() >= s) {
-            list.add(r);
+    public ArrayList<Noeud> chercher(Noeud racine,Double s,ArrayList<Noeud> list ){
+        if (racine == null) return null;
+        else {
+            if (racine.getImportance() >= s) {
+                list.add(this.racine);
+                chercher(racine.getGauche(),s,list);
+                chercher(racine.getDroite(), s,list);
+            }
             return list;
-            } else {
-                    return chercher(r.getGauche(),s);
-                }
-
-
+        }
     }
 
     // Navigation dans l'arbre GAPtree
