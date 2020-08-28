@@ -100,7 +100,7 @@ public class GAPtree {
         if (racine == null) return null;
         else {
             if (racine.getImportance() >= s) {
-                list.add(this.racine);
+                list.add(racine);
                 chercher(racine.getGauche(),s,list);
                 chercher(racine.getDroite(), s,list);
             }

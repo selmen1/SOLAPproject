@@ -219,7 +219,8 @@ public class Main {
 
         ArrayList<Noeud> list =new ArrayList<>();
         ArrayList<Noeud> resultat =new ArrayList<>();
-        resultat = tree.chercher(tree.getRacine(),0.5,list);
+        resultat = tree.chercher(tree.getRacine(),0.2,list);
+        System.out.println(resultat);
         for (Noeud l : resultat){
             System.out.println(l.getElement());
         }
