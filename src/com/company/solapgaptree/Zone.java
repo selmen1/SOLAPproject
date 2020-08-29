@@ -59,22 +59,22 @@ public class Zone {
     }
     public double somme(double[] tab){
        double val=0;
-       for (int i = 0; i< tab.length; i++){
-           val = val + tab[i];
-       }
+        for (double v : tab) {
+            val = val + v;
+        }
         return val;
     }
     public  ArrayList<Objet> union(ArrayList<Objet> list1, ArrayList<Objet> list2) {
-        Set<Objet> set = new HashSet<Objet>();
+        Set<Objet> set = new HashSet<>();
 
         set.addAll(list1);
         set.addAll(list2);
 
-        return new ArrayList<Objet>(set);
+        return new ArrayList<>(set);
     }
 
     public  ArrayList<Objet> intersection(ArrayList<Objet> list1, ArrayList<Objet> list2) {
-        ArrayList<Objet> list = new ArrayList<Objet>();
+        ArrayList<Objet> list = new ArrayList<>();
 
         for (Objet t : list1) {
             if(list2.contains(t)) {
@@ -94,10 +94,10 @@ public class Zone {
         }
         // affichage
         System.out.println("Affichage de la table des donnees");
-        for (int i=0; i < TD.length; i++){
-            System.out.print(TD[i][0] + "   ");
-            System.out.print(TD[i][1]);
-            System.out.println("");
+        for (double[] doubles : TD) {
+            System.out.print(doubles[0] + "   ");
+            System.out.print(doubles[1]);
+            System.out.println("  ");
         }
         // Normalisation
         double[][] TDN= new double[listObjet.size()][2];
@@ -112,10 +112,10 @@ public class Zone {
         }
 
         System.out.println("Affichage de la table des donnees normalisé");
-        for (int i=0; i < TDN.length; i++){
-            System.out.print(TDN[i][0] + "   ");
-            System.out.print(TDN[i][1]);
-            System.out.println("");
+        for (double[] doubles : TDN) {
+            System.out.print(doubles[0] + "   ");
+            System.out.print(doubles[1]);
+            System.out.println("  ");
         }
 
         // Calcule les valeurs d'importance
@@ -130,16 +130,14 @@ public class Zone {
         for (int i=0; i < TDN.length; i++){
             System.out.print(TDNP[i][0] + "   ");
             System.out.print(TDNP[i][1]);
-            System.out.println("");
+            System.out.println("  ");
         }
         //2- Calcule la moyenne pondéré
-        ArrayList<Double> LIO= new ArrayList<Double>();
-        for (int i=0; i < TDNP.length; i++){
+        ArrayList<Double> LIO= new ArrayList<>();
+        for (double[] doubles : TDNP) {
             double[] tab = new double[2];
-            for (int j=0; j <= 1; j++){
-                tab[j] = TDNP[i][j];
-            }
-            LIO.add(somme(tab)/somme(poids));
+            System.arraycopy(doubles, 0, tab, 0, 2);
+            LIO.add(somme(tab) / somme(poids));
         }
         double n=0 ;
         for (Double x : LIO){
@@ -153,8 +151,8 @@ public class Zone {
         // affichage
         System.out.println(LIO.size());
         System.out.println("Affichage l'importance des objets");
-        for (int i=0; i < LIO.size(); i++){
-            System.out.println(LIO.get(i));
+        for (Double aDouble : LIO) {
+            System.out.println(aDouble);
         }
         return LIO;
     }
@@ -164,7 +162,7 @@ public class Zone {
         // Pour chaque objet de la carte un noeud vide non connécté dans GAPtree est crée
         // un noeud est caractérisé par (id, liste des fils, importance)
 
-        ArrayList<Noeud> LNoeud = new ArrayList<Noeud>();
+        ArrayList<Noeud> LNoeud = new ArrayList<>();
         ArrayList<Double> Seuils = importance(listObjet,poids);
         System.out.println(Seuils);
         for (int i=0; i< listObjet.size();i++){
@@ -217,7 +215,7 @@ public class Zone {
             System.out.println("---------" + listObjet_a);
 
             ArrayList<Double> LIO_a = importance(listObjet_a, poids);
-            if (LIO_a.isEmpty()==false){
+            if (!LIO_a.isEmpty()){
                 int IdObjetMax = LIO_a.indexOf(Collections.max(LIO_a))+1;
                 System.out.println("Id objet max   " + IdObjetMax);
                 Objet b =  listObjet_a.get(IdObjetMax-1);
@@ -242,7 +240,6 @@ public class Zone {
                 // System.out.println("-------------" + n);
 
                 // Creer un nouveau noeud et le lier à ses fils
-                double s = imp_a + imp_b;
                 System.out.println("liste des noeuds  " + LNoeud);
                 System.out.println( LNoeud.get(a.getIdObjet()-1));
                 System.out.println(LNoeud.get(b.getIdObjet()-1));
@@ -264,8 +261,7 @@ public class Zone {
             }
         }
 
-        GAPtree arbre = new GAPtree(r);
-        return  arbre;
+        return new GAPtree(r);
     }
 }
 

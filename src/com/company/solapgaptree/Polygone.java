@@ -10,9 +10,7 @@ public class Polygone {
     }
 
     public double Surface(){
-        double s=0;
-
-        return s;
+        return 0;
     }
 
 

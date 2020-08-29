@@ -2,12 +2,11 @@ package com.company;
 
 import com.company.solapgaptree.*;
 
-import java.io.*;
 import java.util.ArrayList;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 	// write your code here
 
         //ArrayList<Integer> lo1=new ArrayList<Integer>();
@@ -98,7 +97,7 @@ public class Main {
         Point p2o1 = new Point(9,0);
         Point p3o1 = new Point(10,10);
         Point p4o1 = new Point(0,24);
-        ArrayList<Point> Lpoint= new ArrayList<Point>();
+        ArrayList<Point> Lpoint= new ArrayList<>();
         Lpoint.add(p1o1);
         Lpoint.add(p2o1);
         Lpoint.add(p3o1);
@@ -114,11 +113,11 @@ public class Main {
         Point p2o2 = new Point(36,0);
         Point p3o2 = new Point(21,12);
         Point p4o2 = new Point(10,10);
-        ArrayList<Point> Lpoint2= new ArrayList<Point>();
-        Lpoint.add(p1o2);
-        Lpoint.add(p2o2);
-        Lpoint.add(p3o2);
-        Lpoint.add(p4o2);
+        ArrayList<Point> Lpoint2= new ArrayList<>();
+        Lpoint2.add(p1o2);
+        Lpoint2.add(p2o2);
+        Lpoint2.add(p3o2);
+        Lpoint2.add(p4o2);
         Polygone polyo2 = new Polygone(Lpoint2);
         Objet o2= new Objet(2,"zone2",200,45,polyo2);
         System.out.println(o2.getIdObjet());
@@ -130,12 +129,12 @@ public class Main {
         Point p2o3 = new Point(21,12);
         Point p3o3 = new Point(28,17);
         Point p4o3 = new Point(0,24);
-        ArrayList<Point> Lpoint3= new ArrayList<Point>();
+        ArrayList<Point> Lpoint3= new ArrayList<>();
         Lpoint3.add(p1o3);
         Lpoint3.add(p2o3);
         Lpoint3.add(p3o3);
         Lpoint3.add(p4o3);
-        Polygone polyo3 = new Polygone(Lpoint2);
+        Polygone polyo3 = new Polygone(Lpoint3);
         Objet o3= new Objet(3,"zone3",170,20,polyo3);
         System.out.println(o3.getIdObjet());
 
@@ -145,12 +144,12 @@ public class Main {
         Point p1o4 = new Point(28,17);
         Point p2o4 = new Point(36,24);
         Point p3o4 = new Point(0,24);
-        ArrayList<Point> Lpoint4= new ArrayList<Point>();
-        Lpoint3.add(p1o4);
-        Lpoint3.add(p2o4);
-        Lpoint3.add(p3o4);
-        Polygone polyo4 = new Polygone(Lpoint2);
-        Objet o4 = new Objet(4,"zone4",80,10,polyo3);
+        ArrayList<Point> Lpoint4= new ArrayList<>();
+        Lpoint4.add(p1o4);
+        Lpoint4.add(p2o4);
+        Lpoint4.add(p3o4);
+        Polygone polyo4 = new Polygone(Lpoint4);
+        Objet o4 = new Objet(4,"zone4",80,10,polyo4);
         System.out.println(o4.getIdObjet());
 
         //ArrayList<Integer> lo3=new ArrayList<Integer>();
@@ -160,28 +159,29 @@ public class Main {
         Point p2o5 = new Point(36,0);
         Point p3o5 = new Point(36,24);
         Point p4o5 = new Point(28,17);
-        ArrayList<Point> Lpoint5= new ArrayList<Point>();
-        Lpoint3.add(p1o5);
-        Lpoint3.add(p2o5);
-        Lpoint3.add(p3o5);
-        Polygone polyo5 = new Polygone(Lpoint2);
-        Objet o5 = new Objet(5,"zone4",230,50,polyo3);
+        ArrayList<Point> Lpoint5= new ArrayList<>();
+        Lpoint5.add(p1o5);
+        Lpoint5.add(p2o5);
+        Lpoint5.add(p3o5);
+        Lpoint5.add(p4o5);
+        Polygone polyo5 = new Polygone(Lpoint5);
+        Objet o5 = new Objet(5,"zone4",230,50,polyo5);
         System.out.println(o5.getIdObjet());
 
-        ArrayList<Objet> lo1_adj = new ArrayList<Objet>();
+        ArrayList<Objet> lo1_adj = new ArrayList<>();
         lo1_adj.add(o2);
         lo1_adj.add(o3);
         o1.setListIdObjetsAdjas(lo1_adj);
         System.out.println("la liste des objets adjacants   " + o1.getListIdObjetsAdjas());
 
-        ArrayList<Objet> lo2_adj = new ArrayList<Objet>();
+        ArrayList<Objet> lo2_adj = new ArrayList<>();
         lo2_adj.add(o1);
         lo2_adj.add(o3);
         lo2_adj.add(o5);
         o2.setListIdObjetsAdjas(lo2_adj);
         System.out.println("la liste des objets adjacants   " + o2.getListIdObjetsAdjas());
 
-        ArrayList<Objet> lo3_adj = new ArrayList<Objet>();
+        ArrayList<Objet> lo3_adj = new ArrayList<>();
         lo3_adj.add(o1);
         lo3_adj.add(o2);
         lo3_adj.add(o4);
@@ -189,20 +189,20 @@ public class Main {
         o3.setListIdObjetsAdjas(lo3_adj);
         System.out.println("la liste des objets adjacants   " + o3.getListIdObjetsAdjas());
 
-        ArrayList<Objet> lo4_adj = new ArrayList<Objet>();
+        ArrayList<Objet> lo4_adj = new ArrayList<>();
         lo4_adj.add(o3);
         lo4_adj.add(o5);
         o4.setListIdObjetsAdjas(lo4_adj);
         System.out.println("la liste des objets adjacants   " + o4.getListIdObjetsAdjas());
 
-        ArrayList<Objet> lo5_adj = new ArrayList<Objet>();
+        ArrayList<Objet> lo5_adj = new ArrayList<>();
         lo5_adj.add(o2);
         lo5_adj.add(o3);
         lo5_adj.add(o4);
         o5.setListIdObjetsAdjas(lo5_adj);
         System.out.println("la liste des objets adjacants   " + o5.getListIdObjetsAdjas());
 
-        ArrayList<Objet> listObjets = new ArrayList<Objet>();
+        ArrayList<Objet> listObjets = new ArrayList<>();
         listObjets.add(o1);
         listObjets.add(o2);
         listObjets.add(o3);

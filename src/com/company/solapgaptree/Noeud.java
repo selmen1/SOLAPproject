@@ -56,6 +56,7 @@ public class Noeud implements Cloneable{
     }
 
     public Object clone() throws CloneNotSupportedException{
+        Object clone = super.clone();
         // copie en profondeur d’un noeud
         Noeud g = null;
         if( gauche != null ) g = (Noeud)gauche.clone();
