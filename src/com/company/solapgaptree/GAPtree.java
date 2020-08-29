@@ -2,7 +2,9 @@ package com.company.solapgaptree;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static java.lang.Integer.max;
 
@@ -95,7 +97,6 @@ public class GAPtree {
     // Recherche
 
     // Sélectionner tous les nœuds ayant leurs seuil >= s
-
     public ArrayList<Noeud> chercher(Noeud racine,Double s,ArrayList<Noeud> list ){
         if (racine == null) return null;
         else {
@@ -108,10 +109,49 @@ public class GAPtree {
         }
     }
 
+    // Supprimer parmi les nœuds de cet ensemble résultant qui ont des frères non sélectionnés.
+    public ArrayList<Noeud> suppNoeudFrr(ArrayList<Noeud> list){
+        list.toArray();
+
+        for (int i=0; i< list.size(); i++){
+            if (list.contains(list.get(i).getGauche()) == false ){
+                   if (list.contains(list.get(i).getDroite()) == true){ ;
+                       ArrayList<Noeud> l =new ArrayList<Noeud>();
+                       l=chercher(list.get(i).getDroite(),0.00,l);
+                       list.remove(list.get(i).getDroite());
+                       list.removeAll(l);
+                   }
+            }
+            if (list.contains(list.get(i).getDroite()) == false ){
+                if (list.contains(list.get(i).getGauche()) == true){
+                    ArrayList<Noeud> l =new ArrayList<Noeud>();
+                    l=chercher(list.get(i).getGauche(),0.00,l);
+                    list.remove(list.get(i).getGauche());
+                    list.removeAll(l);
+
+                }
+            }
+        }
+        return list;
+    }
+
+    //Supprimer tous les nœuds qui ont tous leurs fils sélectionnés.
+    public ArrayList<Noeud> supFilsSelec(ArrayList<Noeud> list){
+
+        for (int i=0; i< list.size(); i++){
+            if (list.contains(list.get(i).getGauche()) == true && list.contains(list.get(i).getDroite()) == true ){
+                list.remove(list.get(i));
+            }
+        }
+        return list;
+    }
+
     // Navigation dans l'arbre GAPtree
     public ArrayList<Noeud> navigation(Double seuil){
         ArrayList<Noeud> listNoeuds = new ArrayList<Noeud>();
-
+        listNoeuds = chercher(this.getRacine(),seuil,listNoeuds);
+        listNoeuds = suppNoeudFrr(listNoeuds);
+        listNoeuds = supFilsSelec(listNoeuds);
         return listNoeuds;
     }
 

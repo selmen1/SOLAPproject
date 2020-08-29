@@ -217,11 +217,27 @@ public class Main {
         GAPtree tree = Z1.solapGAPtree(listObjets,poids);
         tree.getRacine().print();
 
-        ArrayList<Noeud> list =new ArrayList<>();
-        ArrayList<Noeud> resultat =new ArrayList<>();
+        //ArrayList<Noeud> list =new ArrayList<>();
+        /*
+        ArrayList<Noeud> resultat =new ArrayList<Noeud>();
         resultat = tree.chercher(tree.getRacine(),0.2,list);
         System.out.println(resultat);
         for (Noeud l : resultat){
+            System.out.println(l.getElement());
+        }
+        System.out.println("--------------------------------------------");
+        ArrayList<Noeud> re=tree.suppNoeudFrr(resultat);
+        for (Noeud l : re){
+            System.out.println(l.getElement());
+        }
+        System.out.println("--------------------------------------------");
+        ArrayList<Noeud> re2=tree.supFilsSelec(re);
+        for (Noeud l : re2){
+            System.out.println(l.getElement());
+        }*/
+
+        ArrayList<Noeud> list = tree.navigation(0.2);
+        for (Noeud l : list){
             System.out.println(l.getElement());
         }
     }
