@@ -105,11 +105,12 @@ public class GAPtree {
                 chercher(racine.getGauche(),s,list);
                 chercher(racine.getDroite(), s,list);
             }
+            /*
             System.out.println(list);
             System.out.println("---------------------");
             for (Noeud l : list){
-                System.out.println(l.getElement());
-            }
+                System.out.print(l.getElement());
+            }*/
             return list;
         }
     }
@@ -137,22 +138,28 @@ public class GAPtree {
                 }
             }
         }
-        System.out.println(list);
+        /*System.out.println(list);
         for (Noeud l : list){
             System.out.println(l.getElement());
-        }
+        }*/
         return list;
     }
 
     //Supprimer tous les nœuds qui ont tous leurs fils sélectionnés.
     public ArrayList<Noeud> supFilsSelec(ArrayList<Noeud> list){
-
-        for (int i=0; i< list.size(); i++){
-            if (list.contains(list.get(i).getGauche()) && list.contains(list.get(i).getDroite())){
-                list.remove(list.get(i));
+        ArrayList<Noeud> listCopy;
+        listCopy=(ArrayList<Noeud>)list.clone();
+        for (int i=0; i< listCopy.size(); i++){
+            //System.out.println("----------------");
+            if (list.contains(listCopy.get(i).getGauche()) && listCopy.contains(listCopy.get(i).getDroite())){
+                list.remove(listCopy.get(i));
+                /*
+                for (Noeud l : list){
+                    System.out.println("--"+l.getElement());
+                }*/
             }
         }
-        System.out.println(list);
+        System.out.println("--------------" + list);
         for (Noeud l : list){
             System.out.println(l.getElement());
         }

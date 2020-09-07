@@ -5,15 +5,15 @@ import com.company.crime.ZoneCrime;
 import com.company.dao.CrimeDAO;
 import com.company.dao.ZoneCrimeDAO;
 import com.company.solapgaptree.GAPtree;
+import com.company.solapgaptree.Noeud;
 import com.company.solapgaptree.Objet;
 import com.company.solapgaptree.Zone;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 	// write your code here
 
         //ArrayList<Integer> lo1=new ArrayList<Integer>();
@@ -286,7 +286,7 @@ public class Main {
         Zone Z1 = new Zone(1,listObjets);
         System.out.println(Z1.getIdZone());
 
-        ArrayList<Objet> listOz1 = new ArrayList<>();
+        ArrayList<Objet> listOz1;
         listOz1 = Z1.getListObjet();
         for (Objet o : listOz1){
             ArrayList<Integer> list;
@@ -301,11 +301,14 @@ public class Main {
         }
 
         double[] poids = new double[2];
-        poids[0]= 0.5;
-        poids[1]= 0.5;
+        poids[0]= 0.4;
+        poids[1]= 0.6;
 
         GAPtree tree = Z1.solapGAPtree(listObjets,poids);
         tree.getRacine().print();
+
+        ArrayList<Noeud> list = tree.navigation(0.1);
+
 
     }
 }
