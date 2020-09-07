@@ -1,12 +1,19 @@
 package com.company;
 
-import com.company.solapgaptree.*;
+import com.company.crime.Crime;
+import com.company.crime.ZoneCrime;
+import com.company.dao.CrimeDAO;
+import com.company.dao.ZoneCrimeDAO;
+import com.company.solapgaptree.GAPtree;
+import com.company.solapgaptree.Objet;
+import com.company.solapgaptree.Zone;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 	// write your code here
 
         //ArrayList<Integer> lo1=new ArrayList<Integer>();
@@ -93,6 +100,9 @@ public class Main {
         Z1.solapGAPtree(listObjets,poids).getRacine().printTree(out);
         */
 
+
+
+/*
         Point p1o1 = new Point(0,0);
         Point p2o1 = new Point(9,0);
         Point p3o1 = new Point(10,10);
@@ -211,8 +221,8 @@ public class Main {
         Zone Z1 = new Zone(1,listObjets);
         System.out.println(Z1.getIdZone());
         double[] poids = new double[2];
-        poids[0]= 0.5;
-        poids[1]= 0.5;
+        poids[0]= 1;
+        poids[1]= 0;
 
         GAPtree tree = Z1.solapGAPtree(listObjets,poids);
         tree.getRacine().print();
@@ -235,10 +245,67 @@ public class Main {
         for (Noeud l : re2){
             System.out.println(l.getElement());
         }*/
-
+/*
         ArrayList<Noeud> list = tree.navigation(0.2);
+        System.out.println("--------------------------");
         for (Noeud l : list){
             System.out.println(l.getElement());
         }
+*/
+        ArrayList<Crime> crimes;
+        crimes= new CrimeDAO().getAll();
+        for (Crime c : crimes){
+            System.out.println(c.getID_CRIME());
+            System.out.println(c.getNUMZONE());
+            System.out.println(c.getGEOM());
+        }
+
+        System.out.println("-------------------");
+        ArrayList<ZoneCrime> zones;
+        zones= new ZoneCrimeDAO().getAll();
+
+        ArrayList<Objet> listObjets = new ArrayList<>();
+        for (ZoneCrime z : zones){
+            System.out.println(z.getNUMZONE());
+            System.out.println(z.getNOMEZONE());
+            System.out.println(z.getGEOM());
+            System.out.println(z.getAREA());
+            Objet o= new Objet(z.getNUMZONE(),z.getNOMEZONE(),z.getAREA(),z.getGEOM());
+            System.out.println(o.getIdObjet());
+            listObjets.add(o);
+        }
+        ArrayList<Integer> nbs;
+        nbs= new CrimeDAO().getNbCrime();
+        int i = 0;
+        for (Integer nb : nbs){
+            listObjets.get(i).setMesureObjet(nb);
+            i++;
+        }
+
+
+        Zone Z1 = new Zone(1,listObjets);
+        System.out.println(Z1.getIdZone());
+
+        ArrayList<Objet> listOz1 = new ArrayList<>();
+        listOz1 = Z1.getListObjet();
+        for (Objet o : listOz1){
+            ArrayList<Integer> list;
+            list = new ZoneCrimeDAO().getAdj(o.getIdObjet());
+            System.out.println(list);
+            ArrayList<Objet> listOAdj = new ArrayList<>();
+            for (Integer c:list){
+                listOAdj.add(Z1.getListObjet().get(c-1));
+            }
+            System.out.println(listOAdj);
+            o.setListIdObjetsAdjas(listOAdj);
+        }
+
+        double[] poids = new double[2];
+        poids[0]= 1;
+        poids[1]= 0;
+
+        GAPtree tree = Z1.solapGAPtree(listObjets,poids);
+        tree.getRacine().print();
+
     }
 }

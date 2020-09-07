@@ -7,19 +7,19 @@ public class Noeud implements Cloneable{
     private Integer element;
     private Double importance;
     private Noeud gauche;
-    private Noeud droit;
+    private Noeud droite;
 
     public Noeud (){
         element = null;
         importance = null;
         gauche = null;
-        droit = null;
+        droite = null;
     }
 
-    public Noeud(Integer element, Noeud gauche, Noeud droit){
+    public Noeud(Integer element, Noeud gauche, Noeud droite){
         this.element=element;
         this.gauche=gauche;
-        this.droit=droit;
+        this.droite=droite;
     }
 
 
@@ -36,7 +36,7 @@ public class Noeud implements Cloneable{
     }
 
     public Noeud getDroite() {
-        return droit;
+        return droite;
     }
 
     public void setID(int element) {
@@ -51,8 +51,8 @@ public class Noeud implements Cloneable{
        this.gauche = gauche;
     }
 
-    public void setDroite(Noeud droit) {
-        this.droit = droit;
+    public void setDroite(Noeud droite) {
+        this.droite = droite;
     }
 
     public Object clone() throws CloneNotSupportedException{
@@ -61,14 +61,14 @@ public class Noeud implements Cloneable{
         Noeud g = null;
         if( gauche != null ) g = (Noeud)gauche.clone();
         Noeud d = null;
-        if( droit != null ) d = (Noeud)droit.clone();
+        if( droite != null ) d = (Noeud)droite.clone();
         return new Noeud(element, g, d);
     }
 
     // affichage dans un fichier
     public void printTree(OutputStreamWriter out) throws IOException {
-        if (droit != null) {
-            droit.printTree(out, true, "");
+        if (droite != null) {
+            droite.printTree(out, true, "");
         }
         printNodeValue(out);
         if (gauche != null) {
@@ -85,8 +85,8 @@ public class Noeud implements Cloneable{
     }
     // use string and not stringbuffer on purpose as we need to change the indent at each recursion
     public void printTree(OutputStreamWriter out, boolean isRight, String indent) throws IOException {
-        if (droit != null) {
-            droit.printTree(out, true, indent + (isRight ? "        " : " |      "));
+        if (droite != null) {
+            droite.printTree(out, true, indent + (isRight ? "        " : " |      "));
         }
         out.write(indent);
         if (isRight) {
@@ -110,7 +110,7 @@ public class Noeud implements Cloneable{
         if (n != null) {
             System.out.println (prefix + (isLeft ? "|-- " : "\\-- ") + n.element  + "   " + n.importance);
             print(prefix + (isLeft ? "|   " : "    "), n.gauche, true);
-            print(prefix + (isLeft ? "|   " : "    "), n.droit, false);
+            print(prefix + (isLeft ? "|   " : "    "), n.droite, false);
         }
     }
 }

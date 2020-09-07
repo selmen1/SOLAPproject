@@ -105,6 +105,11 @@ public class GAPtree {
                 chercher(racine.getGauche(),s,list);
                 chercher(racine.getDroite(), s,list);
             }
+            System.out.println(list);
+            System.out.println("---------------------");
+            for (Noeud l : list){
+                System.out.println(l.getElement());
+            }
             return list;
         }
     }
@@ -132,6 +137,10 @@ public class GAPtree {
                 }
             }
         }
+        System.out.println(list);
+        for (Noeud l : list){
+            System.out.println(l.getElement());
+        }
         return list;
     }
 
@@ -142,6 +151,10 @@ public class GAPtree {
             if (list.contains(list.get(i).getGauche()) && list.contains(list.get(i).getDroite())){
                 list.remove(list.get(i));
             }
+        }
+        System.out.println(list);
+        for (Noeud l : list){
+            System.out.println(l.getElement());
         }
         return list;
     }

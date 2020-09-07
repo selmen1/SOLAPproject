@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="mvclient">
+    <CLASSES>
+      <root url="jar://F:/Oracle/Middlaware/user_projects/domains/domain_1/ul/mapviewer/mapviewer.ear/web.war/WEB-INF/lib/mvclient.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Program Files/Java/jdk1.8.0_261/jre/lib/ext/ojdbc8.jar!/" />
+      <root url="jar://F:/selmen/PFE DBA fichier/geometry/sdoapi.jar!/" />
+      <root url="jar://F:/selmen/PFE DBA fichier/geometry/sdotype.jar!/" />
+      <root url="jar://F:/selmen/PFE DBA fichier/geometry/sdoutl.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

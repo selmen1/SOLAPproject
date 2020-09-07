@@ -1,5 +1,7 @@
 package com.company.solapgaptree;
 
+import oracle.spatial.geometry.JGeometry;
+
 import java.util.ArrayList;
 
 public class Objet {
@@ -8,12 +10,11 @@ public class Objet {
     private double SurfaceObjet;
     private double MesureObjet;
     private ArrayList<Objet> listIdObjetsAdjas;
-    private Polygone geom;
+    private JGeometry geom;
 
     // Constructeur
 
-
-    public Objet(int IdObjet, String NonObjet, double SurfaceObjet, double MesureObjet,Polygone geom){
+    public Objet(int IdObjet, String NonObjet, double SurfaceObjet, double MesureObjet,JGeometry geom){
         this.IdObjet=IdObjet;
         this.NonObjet=NonObjet;
         this.SurfaceObjet=SurfaceObjet;
@@ -21,6 +22,15 @@ public class Objet {
         //this.listIdObjetsAdjas=listIdObjetsAdjas;
         this.geom=geom;
     }
+
+    public Objet(int numzone, String nomezone, Double area, JGeometry geom) {
+        this.IdObjet=numzone;
+        this.NonObjet=nomezone;
+        this.SurfaceObjet=area;
+        //this.listIdObjetsAdjas=listIdObjetsAdjas;
+        this.geom=geom;
+    }
+
     // les geteurs
     public int getIdObjet() {
         return IdObjet;
@@ -42,7 +52,7 @@ public class Objet {
         return listIdObjetsAdjas;
     }
 
-    public Polygone getGeom() {
+    public JGeometry getGeom() {
         return geom;
     }
 
@@ -67,7 +77,7 @@ public class Objet {
         this.listIdObjetsAdjas = listIdObjetsAdjas;
     }
 
-    public void setGeom(Polygone geom) {
+    public void setGeom(JGeometry geom) {
         this.geom = geom;
     }
 }
