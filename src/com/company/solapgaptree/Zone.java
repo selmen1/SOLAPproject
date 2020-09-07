@@ -194,8 +194,8 @@ public class Zone {
             System.out.println("Id objet a   " + a.getIdObjet());
             System.out.println("le p   " + p);
             //double imp_a = Seuils.get(a.getIdObjet()-p-1);
-            double imp_a = Seuils.get(IdObjetMin-1);
-            System.out.println("imp_a:  " + imp_a);
+            //double imp_a = Seuils.get(IdObjetMin-1);
+            //System.out.println("imp_a:  " + imp_a);
             listObjetCopy.remove(IdObjetMin-1);
             System.out.println("listObjetCopy:   " + listObjetCopy);
 
@@ -221,15 +221,22 @@ public class Zone {
                 Objet b =  listObjet_a.get(IdObjetMax-1);
                 System.out.println("id de l'objet b:  " + b.getIdObjet());
                 //double imp_b = Seuils.get(b.getIdObjet()-p);
-                double imp_b= Seuils.get(IdObjetMax-1);
-                System.out.println("imp_b   " + imp_b);
+                //double imp_b= Seuils.get(IdObjetMax-1);
+                //System.out.println("imp_b   " + imp_b);
 
                 // Fusionner l'objet "a" dans "b".
+                for (Objet o : listObjet){
+                    if (o.getListIdObjetsAdjas().contains(a)){
+                        o.getListIdObjetsAdjas().remove(a);
+                        o.getListIdObjetsAdjas().add(b);
+                    }
+                }
                 listObjet.remove(a);
                 System.out.println(listObjet);
                 double mesure = b.getMesureObjet() + a.getMesureObjet();
                 System.out.println(mesure);
-                double surface = b.getSurfaceObjet() + a.getSurfaceObjet();
+                double surface = b.getSurfaceObjet() +
+                        a.getSurfaceObjet();
                 System.out.println(surface);
                 b.setMesureObjet(mesure);
                 b.setSurfaceObjet(surface);
@@ -243,7 +250,7 @@ public class Zone {
                 System.out.println("liste des noeuds  " + LNoeud);
                 System.out.println( LNoeud.get(a.getIdObjet()-1));
                 System.out.println(LNoeud.get(b.getIdObjet()-1));
-                System.out.println( a.getIdObjet());
+                System.out.println(a.getIdObjet());
                 System.out.println(b.getIdObjet());
                 System.out.println(LNoeud);
                 //Noeud noeud2 = new Noeud(p,s,LNoeud.get(a.getIdObjet()-1),r);

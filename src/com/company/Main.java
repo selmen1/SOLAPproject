@@ -301,8 +301,8 @@ public class Main {
         }
 
         double[] poids = new double[2];
-        poids[0]= 1;
-        poids[1]= 0;
+        poids[0]= 0.5;
+        poids[1]= 0.5;
 
         GAPtree tree = Z1.solapGAPtree(listObjets,poids);
         tree.getRacine().print();
