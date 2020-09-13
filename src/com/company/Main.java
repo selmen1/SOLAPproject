@@ -318,15 +318,7 @@ public class Main {
 
         ArrayList<Noeud> list = tree.navigation(0.2);
         list.get(0).print();
-        /*
-        GAPtree ar = new GAPtree(list.get(0));
-        ArrayList<Noeud> list5 = new ArrayList<>();
-        list5 = ar.chercher(list.get(0),0.00,list5);
-        System.out.println(list5);
-        for (Noeud n : list5){
-            System.out.print("  "+ n.getElement());
-        }
-        */
+
         System.out.println(" ");
         ArrayList<Integer> listIdObjet = new ArrayList<>();
 
