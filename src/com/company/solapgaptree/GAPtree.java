@@ -3,10 +3,12 @@ package com.company.solapgaptree;
 //import java.io.IOException;
 //import java.io.OutputStreamWriter;
 //import java.lang.reflect.Array;
+import java.sql.*;
 import java.util.ArrayList;
-//import java.util.Collections;
 
 import static java.lang.Integer.max;
+
+//import java.util.Collections;
 
 public class GAPtree {
     private Noeud racine;
@@ -175,5 +177,129 @@ public class GAPtree {
         return listNoeuds;
     }
 
+    // les fils de l'arbre
+    public ArrayList<Integer> listFils(Noeud r, ArrayList<Integer> list){
+        if (r == null) return null;
+        else {
+            list.add(r.getElement());
+            listFils(r.getGauche(),list);
+            listFils(r.getDroite(),list);
+        }
+        return list;
+    }
+    public ArrayList<Noeud> principeauxFils(Noeud r, ArrayList<Integer> listObjets){
+        ArrayList<Noeud> l = new ArrayList<>();
+        ArrayList<Noeud> list = chercher(r,0.00, l);
+        ArrayList<Noeud> result = new ArrayList<>();
+        for (int i=0; i < list.size(); i++){
+            if (listObjets.contains(list.get(i).getElement())){
+                result.add(list.get(i));
+            }
+        }
+        return result;
+    }
+
+    // fusionner les polygones adjacents
+    private String url =  "jdbc:oracle:thin:@localhost:1521:orcl";
+    private String user = "DBACRIME";
+    private String pwd = "solap";
+
+    /**
+     * Get geom fusion
+     * @return geom
+     */
+    public void fusion(ArrayList<Noeud> list, ArrayList<Integer> listObjets) {
+        Connection connection;
+        try {
+
+            connection = DriverManager.getConnection(url, user, pwd);
+            Statement statement = connection.createStatement();
+
+            statement.
+                    executeQuery("DROP TABLE ZONE_CRIME_ECHELLE");
+
+            statement.executeQuery("create table ZONE_CRIME_ECHELLE(\n" +
+                    "NUMZONE int primary key,\n" +
+                    "NOMEZONE varchar(20),\n" +
+                    "GEOM MDSYS.SDO_GEOMETRY)");
+
+            statement.executeQuery("INSERT INTO ZONE_CRIME_ECHELLE\n" +
+                    "SELECT * FROM ZONE_CRIME");
+
+            System.out.println(" ");
+            for (int i = 0; i< list.size(); i++) {
+
+                System.out.println("list = " + list.get(i));
+                System.out.println("list.elm = " + list.get(i).getElement());
+                GAPtree r = new GAPtree(list.get(i));
+                ArrayList<Noeud> l = principeauxFils(r.getRacine(), listObjets);
+                System.out.println("l = "+ l);
+                System.out.println(i);
+                if (!l.isEmpty()){
+                    for (int j = 1; j < l.size(); j++) {
+                        System.out.println("  " + l.get(j).getElement());
+                        /*
+                        ResultSet rs = statement.executeQuery("SELECT SDO_GEOM.SDO_UNION(z_a.GEOM, m.diminfo, z_b.GEOM, m.diminfo) \n" +
+                                "  FROM ZONE_CRIME z_a, ZONE_CRIME z_b, user_sdo_geom_metadata m \n" +
+                                "  WHERE m.table_name = 'ZONE_CRIME' AND m.column_name = 'GEOM' \n" +
+                                "  AND z_a.NUMZONE = " + l.get(0).getElement() + " AND z_b.NUMZONE = " + l.get(j).getElement() + " ");
+                        while (rs.next()) {
+                            STRUCT st = (STRUCT) rs.getObject(1);
+                            //convert STRUCT into geometry
+                            JGeometry j_geom = JGeometry.load(st);
+
+                            statement.executeQuery("UPDATE ZONE_CRIME_ECHELLE \n" +
+                                    " SET  GEOM = " + j_geom + " \n" +
+                                    " WHERE NUMZONE = " + l.get(0).getElement() + " ");
+                        }
+
+                        statement.executeQuery("delete from ZONE_CRIME_ECHELLE \n" +
+                                " WHERE NUMZONE = " + l.get(j).getElement() + " ");
+                        */
+
+                        CallableStatement cst = connection.prepareCall("{CALL Fusion(?,?) }");
+                        cst.registerOutParameter(2, Types.INTEGER);
+                        cst.setInt(1, l.get(0).getElement());
+                        cst.setInt(2, l.get(j).getElement());
+                        cst.execute();
+                        /*
+                        statement.executeQuery(
+                                "CREATE OR REPLACE PROCEDURE Fusion\n" +
+                                "\tIS\n" +
+                                "\tsdo SDO_GEOMETRY;\n" +
+                                "BEGIN\n" +
+                                "\t\n" +
+                                "\tSELECT SDO_GEOM.SDO_UNION(z_a.GEOM, m.diminfo, z_b.GEOM, m.diminfo) into sdo\n" +
+                                "\tFROM ZONE_CRIME z_a, ZONE_CRIME z_b, user_sdo_geom_metadata m\n" +
+                                "\tWHERE m.table_name = 'ZONE_CRIME' AND m.column_name = 'GEOM' \n" +
+                                "    AND z_a.NUMZONE ="+ l.get(0) +" AND z_b.NUMZONE = "+ l.get(j) +";\n" +
+                                "\t\n" +
+                                "\t\n" +
+                                "\tUPDATE ZONE_CRIME_ECHELLE \n" +
+                                "\tSET  GEOM = sdo \n" +
+                                "\tWHERE NUMZONE = " + l.get(0) + ";\n" +
+                                "\t\n" +
+                                "\tdelete from ZONE_CRIME_ECHELLE \n" +
+                                "\tWHERE NUMZONE = "+ l.get(j) +";\n" +
+                                "\t\n" +
+                                "END;\n" +
+                                "/\n" +
+                                "execute Fusion");
+                        //statement.executeQuery("execute Fusion");
+                        */
+                    }
+
+                }
+
+            }
+
+            connection.close();
+        } catch (SQLException e) {
+
+            System.out.println("Connection Failed! Check output console");
+            e.printStackTrace();
+        }
+
+    }
 
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
 	// write your code here
 
         //ArrayList<Integer> lo1=new ArrayList<Integer>();
@@ -282,6 +282,15 @@ public class Main {
             i++;
         }
 
+        System.out.println("listObjest = "+ listObjets);
+        for (int o=0; o< listObjets.size(); o++){
+            System.out.println(" o = "+ listObjets.get(o).getIdObjet());
+        }
+
+        ArrayList<Objet> listOs = new ArrayList<>();
+        for (Objet o : listObjets){
+            listOs.add((Objet) o.clone());
+        }
 
         Zone Z1 = new Zone(1,listObjets);
         System.out.println(Z1.getIdZone());
@@ -301,14 +310,32 @@ public class Main {
         }
 
         double[] poids = new double[2];
-        poids[0]= 0.4;
-        poids[1]= 0.6;
+        poids[0]= 1;
+        poids[1]= 0;
 
         GAPtree tree = Z1.solapGAPtree(listObjets,poids);
         tree.getRacine().print();
 
-        ArrayList<Noeud> list = tree.navigation(0.1);
+        ArrayList<Noeud> list = tree.navigation(0.2);
+        list.get(0).print();
+        /*
+        GAPtree ar = new GAPtree(list.get(0));
+        ArrayList<Noeud> list5 = new ArrayList<>();
+        list5 = ar.chercher(list.get(0),0.00,list5);
+        System.out.println(list5);
+        for (Noeud n : list5){
+            System.out.print("  "+ n.getElement());
+        }
+        */
+        System.out.println(" ");
+        ArrayList<Integer> listIdObjet = new ArrayList<>();
 
+        System.out.println(" listObjets = "+ listOs);
+        for (int o=0; o< listOs.size(); o++){
+            listIdObjet.add(listOs.get(o).getIdObjet());
+            System.out.println(" o = "+ listOs.get(o).getIdObjet());
+        }
 
+        tree.fusion(list,listIdObjet);
     }
 }

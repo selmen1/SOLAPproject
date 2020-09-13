@@ -113,4 +113,6 @@ public class Noeud implements Cloneable{
             print(prefix + (isLeft ? "|   " : "    "), n.droite, false);
         }
     }
+
+
 }

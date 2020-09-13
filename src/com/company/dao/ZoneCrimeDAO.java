@@ -34,7 +34,6 @@ public class ZoneCrimeDAO {
                     Double area = rs.getDouble(4);
                     zones.add(new ZoneCrime(NUMZONE, NOMEZONE, j_geom, area));
 
-
                 }
                 connection.close();
             } catch (SQLException e) {

@@ -4,7 +4,7 @@ import oracle.spatial.geometry.JGeometry;
 
 import java.util.ArrayList;
 
-public class Objet {
+public class Objet implements Cloneable{
     private int IdObjet;
     private String NonObjet;
     private double SurfaceObjet;
@@ -79,5 +79,20 @@ public class Objet {
 
     public void setGeom(JGeometry geom) {
         this.geom = geom;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Objet cloned = (Objet) super.clone();
+        cloned.setIdObjet(cloned.getIdObjet());
+        cloned.setNonObjet(cloned.getNonObjet());
+        cloned.setMesureObjet(cloned.getMesureObjet());
+        cloned.setListIdObjetsAdjas(cloned.getListIdObjetsAdjas());
+        cloned.setGeom(cloned.getGeom());
+        cloned.setSurfaceObjet(cloned.getSurfaceObjet());
+        // the above is applicable in case of primitive member types,
+        // however, in case of non primitive types
+        // cloned.setNonPrimitiveType(cloned.getNonPrimitiveType().clone());
+        return cloned;
     }
 }
