@@ -254,6 +254,7 @@ public class Main {
 */
         ArrayList<Crime> crimes;
         crimes= new CrimeDAO().getAll();
+
         for (Crime c : crimes){
             System.out.println(c.getID_CRIME());
             System.out.println(c.getNUMZONE());
@@ -278,7 +279,7 @@ public class Main {
         nbs= new CrimeDAO().getNbCrime();
         int i = 0;
         for (Integer nb : nbs){
-            listObjets.get(i).setMesureObjet(nb);
+            listObjets.get(i).setNbCrime(nb);
             i++;
         }
 
@@ -306,17 +307,19 @@ public class Main {
                 listOAdj.add(Z1.getListObjet().get(c-1));
             }
             System.out.println(listOAdj);
-            o.setListIdObjetsAdjas(listOAdj);
+            o.setListObjetsAdjas(listOAdj);
         }
 
-        double[] poids = new double[2];
+        double[] poids = new double[4];
         poids[0]= 1;
         poids[1]= 0;
+        poids[2]= 0;
+        poids[3]= 0;
 
         GAPtree tree = Z1.solapGAPtree(listObjets,poids);
         tree.getRacine().print();
 
-        ArrayList<Noeud> list = tree.navigation(0.2);
+        ArrayList<Noeud> list = tree.navigation(0.1);
         list.get(0).print();
 
         System.out.println(" ");
@@ -327,6 +330,8 @@ public class Main {
             listIdObjet.add(listOs.get(o).getIdObjet());
             System.out.println(" o = "+ listOs.get(o).getIdObjet());
         }
+
+
 
         tree.fusion(list,listIdObjet);
     }

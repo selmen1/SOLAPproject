@@ -87,55 +87,60 @@ public class Zone {
     public ArrayList<Double> importance(ArrayList<Objet> listObjet, double[] poids){
 
         //Création de tableau de données
-        double[][] TD = new double[listObjet.size()][2];
+        double[][] TD = new double[listObjet.size()][4];
         for (int i=0; i< TD.length; i++){
             TD[i][0] = listObjet.get(i).getSurfaceObjet();
-            TD[i][1] = listObjet.get(i).getMesureObjet();
+            TD[i][1] = listObjet.get(i).getNbCrime();
+            TD[i][2] = listObjet.get(i).getTauxSec();
+            TD[i][3] = listObjet.get(i).getNiveauxVie();
         }
+        /*
         // affichage
         System.out.println("Affichage de la table des donnees");
         for (double[] doubles : TD) {
             System.out.print(doubles[0] + "   ");
             System.out.print(doubles[1]);
             System.out.println("  ");
-        }
+        }*/
         // Normalisation
-        double[][] TDN= new double[listObjet.size()][2];
+        double[][] TDN= new double[listObjet.size()][4];
         double[] t=new double[listObjet.size()];
-        for (int j=0; j <= 1; j++){
+        for (int j=0; j <= 3; j++){
             for (int i=0; i < TDN.length; i++){
                 t[i]= TD[i][j];
             }
             for (int i=0; i < listObjet.size(); i++) {
-                TDN[i][j] = (TD[i][j] - min(t)[0]) / (max(t)[0] - min(t)[0]);
+                if (j == 0 || j == 1 ){TDN[i][j] = (TD[i][j] - min(t)[0]) / (max(t)[0] - min(t)[0]);}
+                else {TDN[i][j] = (max(t)[0] - TD[i][j]) / (max(t)[0] - min(t)[0]);}
             }
         }
-
+        /*
         System.out.println("Affichage de la table des donnees normalisé");
         for (double[] doubles : TDN) {
             System.out.print(doubles[0] + "   ");
             System.out.print(doubles[1]);
             System.out.println("  ");
-        }
+        }*/
 
         // Calcule les valeurs d'importance
         //1- Considération les poids des critères
-        double[][] TDNP= new double[listObjet.size()][2];
+        double[][] TDNP= new double[listObjet.size()][4];
         for (int i=0; i < TDNP.length; i++){
-            for (int j=0; j <= 1; j++){
+            for (int j=0; j <= 3; j++){
                 TDNP[i][j] = TDN[i][j] * poids[j];
             }
         }
+        /*
         System.out.println("Affichage de la table des donnees pondéré");
         for (int i=0; i < TDN.length; i++){
             System.out.print(TDNP[i][0] + "   ");
             System.out.print(TDNP[i][1]);
             System.out.println("  ");
-        }
+        }*/
         //2- Calcule la moyenne pondéré
         ArrayList<Double> LIO= new ArrayList<>();
         for (double[] doubles : TDNP) {
-            double[] tab = new double[2];
+            double[] tab = new double[4];
             System.arraycopy(doubles, 0, tab, 0, 2);
             LIO.add(somme(tab) / somme(poids));
         }
@@ -147,13 +152,13 @@ public class Zone {
         for (int i =0; i< LIO.size();i++){
             LIO.set(i, LIO.get(i)/n);
         }
-
+        /*
         // affichage
         System.out.println(LIO.size());
         System.out.println("Affichage l'importance des objets");
         for (Double aDouble : LIO) {
             System.out.println(aDouble);
-        }
+        }*/
         return LIO;
     }
 
@@ -193,23 +198,12 @@ public class Zone {
             Objet a = listObjet.get(IdObjetMin-1);
             System.out.println("Id objet a   " + a.getIdObjet());
             System.out.println("le p   " + p);
-            //double imp_a = Seuils.get(a.getIdObjet()-p-1);
-            //double imp_a = Seuils.get(IdObjetMin-1);
-            //System.out.println("imp_a:  " + imp_a);
             listObjetCopy.remove(IdObjetMin-1);
             System.out.println("listObjetCopy:   " + listObjetCopy);
 
             // Chercher parmis tous les voisin de "a" l'objet "b" ayant la plus grande valeur d'importance
-           ArrayList<Objet> listObjet_a = a.getListIdObjetsAdjas();
-           /*
-               for (int i=0; i<listObjet.size(); i++){
-                   for (int j=0; j<listObjet_a.size(); j++){
-                       if (listObjet.get(i).getIdObjet() == listIdObjet_a.get(j)){
-                            listObjet_a.add(listObjet.get(i));
-                       }
-                   }
-               }
-            */
+           ArrayList<Objet> listObjet_a = a.getListObjetsAdjas();
+
             // System.out.println("---------" + listIdObjet_a);
             listObjet_a.remove(c);
             System.out.println("---------" + listObjet_a);
@@ -220,44 +214,39 @@ public class Zone {
                 System.out.println("Id objet max   " + IdObjetMax);
                 Objet b =  listObjet_a.get(IdObjetMax-1);
                 System.out.println("id de l'objet b:  " + b.getIdObjet());
-                //double imp_b = Seuils.get(b.getIdObjet()-p);
-                //double imp_b= Seuils.get(IdObjetMax-1);
-                //System.out.println("imp_b   " + imp_b);
 
                 // Fusionner l'objet "a" dans "b".
                 for (Objet o : listObjet){
-                    if (o.getListIdObjetsAdjas().contains(a)){
-                        o.getListIdObjetsAdjas().remove(a);
-                        o.getListIdObjetsAdjas().add(b);
+                    if (o.getListObjetsAdjas().contains(a)){
+                        o.getListObjetsAdjas().remove(a);
+                        o.getListObjetsAdjas().add(b);
                     }
                 }
                 listObjet.remove(a);
                 System.out.println(listObjet);
-                double mesure = b.getMesureObjet() + a.getMesureObjet();
-                System.out.println(mesure);
+                double nbcrime = b.getNbCrime() + a.getNbCrime();
+                System.out.println(nbcrime);
                 double surface = b.getSurfaceObjet() +
                         a.getSurfaceObjet();
                 System.out.println(surface);
-                b.setMesureObjet(mesure);
+                b.setNbCrime(nbcrime);
                 b.setSurfaceObjet(surface);
-                b.setListIdObjetsAdjas(union(b.getListIdObjetsAdjas(),a.getListIdObjetsAdjas()));
-                System.out.println(b.getMesureObjet()+"   "+b.getSurfaceObjet());
-                System.out.println(b.getListIdObjetsAdjas());
-                //Integer n = b.getListIdObjetsAdjas().remove(a.getIdObjet());
-                // System.out.println("-------------" + n);
+                b.setListObjetsAdjas(union(b.getListObjetsAdjas(),a.getListObjetsAdjas()));
+                System.out.println(b.getNbCrime()+"   "+b.getSurfaceObjet());
+                System.out.println(b.getListObjetsAdjas());
 
                 // Creer un nouveau noeud et le lier à ses fils
+                /*
                 System.out.println("liste des noeuds  " + LNoeud);
                 System.out.println( LNoeud.get(a.getIdObjet()-1));
                 System.out.println(LNoeud.get(b.getIdObjet()-1));
                 System.out.println(a.getIdObjet());
                 System.out.println(b.getIdObjet());
                 System.out.println(LNoeud);
-                //Noeud noeud2 = new Noeud(p,s,LNoeud.get(a.getIdObjet()-1),r);
+                 */
                 Noeud noeud2 = new Noeud(p,LNoeud.get(b.getIdObjet()-1),LNoeud.get(a.getIdObjet()-1));
                 noeud2.setImportance(noeud2.getDroite().getImportance() + noeud2.getGauche().getImportance());
                 System.out.println(noeud2.getImportance());
-                //noeud2.setImportance(imp_a + imp_b);
                 LNoeud.add(noeud2);
                 r = noeud2;
                 System.out.println("racine  " + r.getElement());

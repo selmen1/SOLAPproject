@@ -13,8 +13,8 @@ public class ZoneCrimeDAO {
     private String pwd = "solap";
 
     /**
-     * Get all crime on database
-     * @return cirme list
+     * Get all zone_crime on database
+     * @return zone_cirme list
      */
     public ArrayList<ZoneCrime> getAll() {
             Connection connection;
@@ -23,16 +23,18 @@ public class ZoneCrimeDAO {
 
                 connection = DriverManager.getConnection(url, user, pwd);
                 Statement statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery("select NUMZONE, NOMEZONE, GEOM, SDO_GEOM.SDO_AREA(GEOM, 0.005)  from ZONE_CRIME");
+                ResultSet rs = statement.executeQuery("select NUMZONE, NOMEZONE, GEOM, SDO_GEOM.SDO_AREA(GEOM, 0.005), TAUXSEC, NIVEAUXVIE  from ZONE_CRIME");
                 while (rs.next()) {
                     int NUMZONE = rs.getInt("NUMZONE");
                     String NOMEZONE = rs.getString("NOMEZONE");
+                    Double TAUXSEC = rs.getDouble("TAUXSEC");
+                    Double NIVEAUVIE = rs.getDouble("NIVEAUXVIE");
                     System.out.println(rs);
                     STRUCT st = (STRUCT) rs.getObject(3);
                     //convert STRUCT into geometry
                     JGeometry j_geom = JGeometry.load(st);
                     Double area = rs.getDouble(4);
-                    zones.add(new ZoneCrime(NUMZONE, NOMEZONE, j_geom, area));
+                    zones.add(new ZoneCrime(NUMZONE, NOMEZONE, j_geom, area, TAUXSEC, NIVEAUVIE));
 
                 }
                 connection.close();

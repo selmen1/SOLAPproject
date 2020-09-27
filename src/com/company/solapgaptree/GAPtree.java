@@ -205,15 +205,37 @@ public class GAPtree {
             connection = DriverManager.getConnection(url, user, pwd);
             Statement statement = connection.createStatement();
 
+            statement.executeQuery("DROP TABLE CRIME_ECHELLE");
             statement.executeQuery("DROP TABLE ZONE_CRIME_ECHELLE");
-
             statement.executeQuery("create table ZONE_CRIME_ECHELLE(\n" +
                     "NUMZONE int primary key,\n" +
                     "NOMEZONE varchar(20),\n" +
+                    "TAUXSEC number,\n" +
+                    "NIVEAUXVIE number,\n" +
                     "GEOM MDSYS.SDO_GEOMETRY)");
-
             statement.executeQuery("INSERT INTO ZONE_CRIME_ECHELLE\n" +
                     "SELECT * FROM ZONE_CRIME");
+
+            
+            statement.executeQuery("CREATE INDEX ZONE_ECH_s_idx\n" +
+                    "   ON ZONE_CRIME_ECHELLE(GEOM)\n" +
+                    "   INDEXTYPE IS MDSYS.SPATIAL_INDEX");
+
+
+            statement.executeQuery("create table CRIME_ECHELLE (\n" +
+                    "ID_CRIME number primary key,\n" +
+                    "NUMZONE int,\n" +
+                    "GEOM MDSYS.SDO_GEOMETRY,\n" +
+                    "constraint fk_ZONE_Ech foreign key(NUMZONE) references ZONE_CRIME(NUMZONE)\n" +
+                    ")");
+            statement.executeQuery("INSERT INTO CRIME_ECHELLE\n" +
+                    "SELECT * FROM CRIME");
+
+            statement.executeQuery("CREATE INDEX CRIME_ECH_s_idx\n" +
+                    "   ON CRIME_ECHELLE(GEOM)\n" +
+                    "   INDEXTYPE IS MDSYS.SPATIAL_INDEX");
+
+
 
             System.out.println(" ");
             for (int i = 0; i< list.size(); i++) {

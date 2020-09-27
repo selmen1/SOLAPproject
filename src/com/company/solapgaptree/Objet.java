@@ -8,17 +8,19 @@ public class Objet implements Cloneable{
     private int IdObjet;
     private String NonObjet;
     private double SurfaceObjet;
-    private double MesureObjet;
-    private ArrayList<Objet> listIdObjetsAdjas;
+    private double NbCrime;
+    private double TauxSec;
+    private double NiveauxVie;
+    private ArrayList<Objet> listObjetsAdjas;
     private JGeometry geom;
 
     // Constructeur
 
-    public Objet(int IdObjet, String NonObjet, double SurfaceObjet, double MesureObjet,JGeometry geom){
+    public Objet(int IdObjet, String NonObjet, double SurfaceObjet, double NbCrime,JGeometry geom){
         this.IdObjet=IdObjet;
         this.NonObjet=NonObjet;
         this.SurfaceObjet=SurfaceObjet;
-        this.MesureObjet=MesureObjet;
+        this.NbCrime=NbCrime;
         //this.listIdObjetsAdjas=listIdObjetsAdjas;
         this.geom=geom;
     }
@@ -44,12 +46,16 @@ public class Objet implements Cloneable{
         return SurfaceObjet;
     }
 
-    public double getMesureObjet() {
-        return MesureObjet;
+    public double getNbCrime() {
+        return NbCrime;
     }
 
-    public ArrayList<Objet> getListIdObjetsAdjas() {
-        return listIdObjetsAdjas;
+    public double getTauxSec(){return TauxSec;}
+
+    public double getNiveauxVie() { return NiveauxVie; }
+
+    public ArrayList<Objet> getListObjetsAdjas() {
+        return listObjetsAdjas;
     }
 
     public JGeometry getGeom() {
@@ -69,25 +75,28 @@ public class Objet implements Cloneable{
         SurfaceObjet = surfaceObjet;
     }
 
-    public void setMesureObjet(double mesureObjet) {
-        MesureObjet = mesureObjet;
-    }
+    public void setNbCrime(double Nbcrime) { NbCrime = Nbcrime; }
 
-    public void setListIdObjetsAdjas(ArrayList<Objet> listIdObjetsAdjas) {
-        this.listIdObjetsAdjas = listIdObjetsAdjas;
+    public void setTauxSec(double tauxSec) { TauxSec = tauxSec; }
+
+    public void setNiveauxVie(double niveauxVie) { NiveauxVie = niveauxVie; }
+
+    public void setListObjetsAdjas(ArrayList<Objet> listObjetsAdjas) {
+        this.listObjetsAdjas = listObjetsAdjas;
     }
 
     public void setGeom(JGeometry geom) {
         this.geom = geom;
     }
 
+    //les methodes
     @Override
     public Object clone() throws CloneNotSupportedException {
         Objet cloned = (Objet) super.clone();
         cloned.setIdObjet(cloned.getIdObjet());
         cloned.setNonObjet(cloned.getNonObjet());
-        cloned.setMesureObjet(cloned.getMesureObjet());
-        cloned.setListIdObjetsAdjas(cloned.getListIdObjetsAdjas());
+        cloned.setNbCrime(cloned.getNbCrime());
+        cloned.setListObjetsAdjas(cloned.getListObjetsAdjas());
         cloned.setGeom(cloned.getGeom());
         cloned.setSurfaceObjet(cloned.getSurfaceObjet());
         // the above is applicable in case of primitive member types,
