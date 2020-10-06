@@ -16,21 +16,15 @@ public class Objet implements Cloneable{
 
     // Constructeur
 
-    public Objet(int IdObjet, String NonObjet, double SurfaceObjet, double NbCrime,JGeometry geom){
-        this.IdObjet=IdObjet;
-        this.NonObjet=NonObjet;
-        this.SurfaceObjet=SurfaceObjet;
-        this.NbCrime=NbCrime;
-        //this.listIdObjetsAdjas=listIdObjetsAdjas;
-        this.geom=geom;
-    }
-
-    public Objet(int numzone, String nomezone, Double area, JGeometry geom) {
+    public Objet(int numzone, String nomezone, Double area, JGeometry geom, Double NbCrime, Double TauxSec, Double NiveauxVie) {
         this.IdObjet=numzone;
         this.NonObjet=nomezone;
         this.SurfaceObjet=area;
         //this.listIdObjetsAdjas=listIdObjetsAdjas;
         this.geom=geom;
+        this.NbCrime=NbCrime;
+        this.NiveauxVie=NiveauxVie;
+        this.TauxSec=TauxSec;
     }
 
     // les geteurs

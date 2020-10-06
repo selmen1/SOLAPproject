@@ -10,7 +10,6 @@ public class Zone {
     public Zone(int IdZone, ArrayList<Objet> listObjet) {
         this.IdZone=IdZone;
         this.listObjet=listObjet;
-
     }
 
     public int getIdZone() {
@@ -58,7 +57,7 @@ public class Zone {
         return minimum;
     }
     public double somme(double[] tab){
-       double val=0;
+        double val=0;
         for (double v : tab) {
             val = val + v;
         }
@@ -84,6 +83,7 @@ public class Zone {
 
         return list;
     }
+
     public ArrayList<Double> importance(ArrayList<Objet> listObjet, double[] poids){
 
         //Création de tableau de données
@@ -94,14 +94,6 @@ public class Zone {
             TD[i][2] = listObjet.get(i).getTauxSec();
             TD[i][3] = listObjet.get(i).getNiveauxVie();
         }
-        /*
-        // affichage
-        System.out.println("Affichage de la table des donnees");
-        for (double[] doubles : TD) {
-            System.out.print(doubles[0] + "   ");
-            System.out.print(doubles[1]);
-            System.out.println("  ");
-        }*/
         // Normalisation
         double[][] TDN= new double[listObjet.size()][4];
         double[] t=new double[listObjet.size()];
@@ -114,14 +106,6 @@ public class Zone {
                 else {TDN[i][j] = (max(t)[0] - TD[i][j]) / (max(t)[0] - min(t)[0]);}
             }
         }
-        /*
-        System.out.println("Affichage de la table des donnees normalisé");
-        for (double[] doubles : TDN) {
-            System.out.print(doubles[0] + "   ");
-            System.out.print(doubles[1]);
-            System.out.println("  ");
-        }*/
-
         // Calcule les valeurs d'importance
         //1- Considération les poids des critères
         double[][] TDNP= new double[listObjet.size()][4];
@@ -130,13 +114,6 @@ public class Zone {
                 TDNP[i][j] = TDN[i][j] * poids[j];
             }
         }
-        /*
-        System.out.println("Affichage de la table des donnees pondéré");
-        for (int i=0; i < TDN.length; i++){
-            System.out.print(TDNP[i][0] + "   ");
-            System.out.print(TDNP[i][1]);
-            System.out.println("  ");
-        }*/
         //2- Calcule la moyenne pondéré
         ArrayList<Double> LIO= new ArrayList<>();
         for (double[] doubles : TDNP) {
@@ -148,17 +125,9 @@ public class Zone {
         for (Double x : LIO){
             n=n+x;
         }
-
         for (int i =0; i< LIO.size();i++){
             LIO.set(i, LIO.get(i)/n);
         }
-        /*
-        // affichage
-        System.out.println(LIO.size());
-        System.out.println("Affichage l'importance des objets");
-        for (Double aDouble : LIO) {
-            System.out.println(aDouble);
-        }*/
         return LIO;
     }
 
@@ -166,54 +135,34 @@ public class Zone {
 
         // Pour chaque objet de la carte un noeud vide non connécté dans GAPtree est crée
         // un noeud est caractérisé par (id, liste des fils, importance)
-
         ArrayList<Noeud> LNoeud = new ArrayList<>();
         ArrayList<Double> Seuils = importance(listObjet,poids);
-        System.out.println(Seuils);
         for (int i=0; i< listObjet.size();i++){
             Noeud noeud= new Noeud(i,null,null);
             noeud.setImportance(Seuils.get(i));
-            System.out.println(noeud.getElement());
-            System.out.println(noeud.getImportance());
             LNoeud.add(noeud);
         }
-        System.out.println(LNoeud);
         Noeud r= LNoeud.get(0);
-        System.out.println(r.getElement());
-        int p = listObjet.size();
-        System.out.println("le p = n+1     " + p);
-        //ArrayList<Objet> listObjetCopy = listObjet;
-        ArrayList<Objet> listObjetCopy = (ArrayList<Objet>)listObjet.clone();
-        System.out.println("liste d'objets copy   " + listObjetCopy);
 
-        Objet c=null;
         // Création les noeuds de l'arbre SOLAP GAPtree
-
+        int p = listObjet.size();
+        ArrayList<Objet> listObjetCopy = (ArrayList<Objet>)listObjet.clone();
+        Objet c=null;
         while (listObjetCopy.size() != 1){
             // Eliminer l'objet "a" ayant la plus petite valeur d'importance
             ArrayList<Double> LIO = importance(listObjet, poids);
-            System.out.println(LIO);
             int IdObjetMin =LIO.indexOf(Collections.min(LIO))+1;
-            System.out.println("IdObjetMin =  " + IdObjetMin);
             Objet a = listObjet.get(IdObjetMin-1);
-            System.out.println("Id objet a   " + a.getIdObjet());
-            System.out.println("le p   " + p);
             listObjetCopy.remove(IdObjetMin-1);
-            System.out.println("listObjetCopy:   " + listObjetCopy);
 
             // Chercher parmis tous les voisin de "a" l'objet "b" ayant la plus grande valeur d'importance
-           ArrayList<Objet> listObjet_a = a.getListObjetsAdjas();
-
-            // System.out.println("---------" + listIdObjet_a);
+            ArrayList<Objet> listObjet_a = a.getListObjetsAdjas();
             listObjet_a.remove(c);
-            System.out.println("---------" + listObjet_a);
 
             ArrayList<Double> LIO_a = importance(listObjet_a, poids);
             if (!LIO_a.isEmpty()){
                 int IdObjetMax = LIO_a.indexOf(Collections.max(LIO_a))+1;
-                System.out.println("Id objet max   " + IdObjetMax);
                 Objet b =  listObjet_a.get(IdObjetMax-1);
-                System.out.println("id de l'objet b:  " + b.getIdObjet());
 
                 // Fusionner l'objet "a" dans "b".
                 for (Objet o : listObjet){
@@ -223,40 +172,23 @@ public class Zone {
                     }
                 }
                 listObjet.remove(a);
-                System.out.println(listObjet);
                 double nbcrime = b.getNbCrime() + a.getNbCrime();
-                System.out.println(nbcrime);
-                double surface = b.getSurfaceObjet() +
-                        a.getSurfaceObjet();
-                System.out.println(surface);
+                double surface = b.getSurfaceObjet() + a.getSurfaceObjet();
                 b.setNbCrime(nbcrime);
                 b.setSurfaceObjet(surface);
                 b.setListObjetsAdjas(union(b.getListObjetsAdjas(),a.getListObjetsAdjas()));
-                System.out.println(b.getNbCrime()+"   "+b.getSurfaceObjet());
-                System.out.println(b.getListObjetsAdjas());
 
                 // Creer un nouveau noeud et le lier à ses fils
-                /*
-                System.out.println("liste des noeuds  " + LNoeud);
-                System.out.println( LNoeud.get(a.getIdObjet()-1));
-                System.out.println(LNoeud.get(b.getIdObjet()-1));
-                System.out.println(a.getIdObjet());
-                System.out.println(b.getIdObjet());
-                System.out.println(LNoeud);
-                 */
                 Noeud noeud2 = new Noeud(p,LNoeud.get(b.getIdObjet()-1),LNoeud.get(a.getIdObjet()-1));
                 noeud2.setImportance(noeud2.getDroite().getImportance() + noeud2.getGauche().getImportance());
-                System.out.println(noeud2.getImportance());
                 LNoeud.add(noeud2);
                 r = noeud2;
-                System.out.println("racine  " + r.getElement());
                 b.setIdObjet(p+1);
                 p++;
                 c=a;
 
             }
         }
-
         return new GAPtree(r);
     }
 }

@@ -9,14 +9,17 @@ public class ZoneCrime {
      private Double AREA;
      private Double TAUXSEC;
      private Double NIVEAUVIE;
+    private Double NBCRIME;
 
-    public ZoneCrime(int numzone, String nomezone, JGeometry j_geom, Double area,Double TAUXSEC, Double NIVEAUVIE) {
+    public ZoneCrime(int numzone, String nomezone, JGeometry j_geom, Double area,Double TAUXSEC, Double NIVEAUVIE, Double NBCRIME) {
         this.NUMZONE=numzone;
         this.NOMEZONE=nomezone;
         this.GEOM=j_geom;
         this.AREA = area;
         this.TAUXSEC = TAUXSEC;
         this.NIVEAUVIE = NIVEAUVIE;
+        this.NBCRIME = NBCRIME;
+
     }
 
     // les geteurs
@@ -40,6 +43,8 @@ public class ZoneCrime {
 
     public Double getNIVEAUVIE() { return NIVEAUVIE; }
 
+    public Double getNBCRIME() { return NBCRIME; }
+
     // les seteurs
     public void setNUMZONE(int NUMZONE) {
         this.NUMZONE = NUMZONE;
@@ -58,4 +63,6 @@ public class ZoneCrime {
     public void setTAUXSEC(Double TAUXSEC) { this.TAUXSEC = TAUXSEC; }
 
     public void setNIVEAUVIE(Double NIVEAUVIE) { this.NIVEAUVIE = NIVEAUVIE; }
+
+    public void setNBCRIME(Double NBCRIME) { this.NBCRIME = NBCRIME; }
 }
