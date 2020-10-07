@@ -30,7 +30,6 @@ public class ZoneCrimeDAO {
                     Double NBCRIME   = rs.getDouble("nbrcrimeg");
                     Double TAUXSEC = rs.getDouble("tauxsg");
                     Double NIVEAUVIE = rs.getDouble("nvieg");
-                    System.out.println(rs);
                     STRUCT st = (STRUCT) rs.getObject(6);
                     //convert STRUCT into geometry
                     JGeometry j_geom = JGeometry.load(st);

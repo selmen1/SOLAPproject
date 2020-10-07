@@ -22,7 +22,6 @@ public class Main {
         ArrayList<Objet> listObjets = new ArrayList<>();
         for (ZoneCrime z : zones){
             Objet o= new Objet(z.getNUMZONE(),z.getNOMEZONE(),z.getAREA(),z.getGEOM(), z.getNBCRIME(),z.getTAUXSEC(),z.getNIVEAUVIE());
-            System.out.println(o.getIdObjet());
             listObjets.add(o);
         }
 
@@ -47,10 +46,10 @@ public class Main {
         }
 
         double[] poids = new double[4];
-        poids[0]= 1;
-        poids[1]= 0;
-        poids[2]= 0;
-        poids[3]= 0;
+        poids[0]= 0.3;
+        poids[1]= 0.5;
+        poids[2]= 0.1;
+        poids[3]= 0.1;
 
         GAPtree tree = Z1.solapGAPtree(listObjets,poids);
         tree.getRacine().print();

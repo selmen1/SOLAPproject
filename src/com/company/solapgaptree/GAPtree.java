@@ -81,7 +81,6 @@ public class GAPtree {
         if (r==null)return 0;
         else
             if (r.getGauche()==null && r.getDroite()==null){
-                //System.out.println("rani hna");
                 return 1;}
             else return nombreFeuilles(r.getGauche()) + nombreFeuilles(r.getDroite());
     }
@@ -107,12 +106,7 @@ public class GAPtree {
                 chercher(racine.getGauche(),s,list);
                 chercher(racine.getDroite(), s,list);
             }
-            /*
-            System.out.println(list);
-            System.out.println("---------------------");
-            for (Noeud l : list){
-                System.out.print(l.getElement());
-            }*/
+
             return list;
         }
     }
@@ -140,10 +134,7 @@ public class GAPtree {
                 }
             }
         }
-        /*System.out.println(list);
-        for (Noeud l : list){
-            System.out.println(l.getElement());
-        }*/
+
         return list;
     }
 
@@ -152,19 +143,12 @@ public class GAPtree {
         ArrayList<Noeud> listCopy;
         listCopy=(ArrayList<Noeud>)list.clone();
         for (int i=0; i< listCopy.size(); i++){
-            //System.out.println("----------------");
             if (list.contains(listCopy.get(i).getGauche()) && listCopy.contains(listCopy.get(i).getDroite())){
                 list.remove(listCopy.get(i));
-                /*
-                for (Noeud l : list){
-                    System.out.println("--"+l.getElement());
-                }*/
+
             }
         }
-        System.out.println("--------------" + list);
-        for (Noeud l : list){
-            System.out.println(l.getElement());
-        }
+
         return list;
     }
 
@@ -223,20 +207,11 @@ public class GAPtree {
 
             System.out.println(" ");
             for (int i = 0; i< list.size(); i++) {
-
-                System.out.println("list = " + list.get(i));
-                System.out.println("list.elm = " + list.get(i).getElement());
                 GAPtree r = new GAPtree(list.get(i));
                 ArrayList<Noeud> l = principeauxFils(r.getRacine(), listObjets);
-                System.out.println("l = "+ l);
 
-                for (Noeud n:l){
-                    System.out.println("l = "+ n.getElement());
-                }
                 if (!l.isEmpty()){
                     for (int j = 1; j < l.size(); j++) {
-                        System.out.println("  " + l.get(j).getElement());
-                        System.out.println(" j= " + j);
 
                         CallableStatement cst = connection.prepareCall("{CALL Fusion(?,?) }");
                         cst.registerOutParameter(2, Types.INTEGER);
